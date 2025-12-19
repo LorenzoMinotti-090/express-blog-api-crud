@@ -17,13 +17,33 @@ export function show(req, res) {
 }
 
 export function store(req, res) {
-    console.log("Dati ricevuti:", req.body);
-    res.send("Creazione di un nuovo post");
+    const newPost = req.body;
+    const lastId = posts.length > 0 ? posts[posts.length - 1].id : 0;
+    newPost.id = lastId + 1;
+
+    posts.push(newPost);
+
+    console.log("Lista aggiornata:", posts);
+
+    return res.status(201).json(newPost);
 }
 
 export function update(req, res) {
-    const id = req.params.id;
-    res.send("Aggiornamento completo del post " + id);
+    const id = Number(req.params.id);
+    const post = posts.find((post) => post.id === id);
+
+    if (!post) {
+        return res.status(404).json({ error: "Post non trovato" });
+    }
+
+    post.titolo = req.body.titolo;
+    post.contenuto = req.body.contenuto;
+    post.immagine = req.body.immagine;
+    post.tags = req.body.tags;
+
+    console.log("Lista aggiornata:", posts);
+
+    return res.json(post);
 }
 
 export function modify(req, res) {
