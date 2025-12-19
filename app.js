@@ -12,6 +12,8 @@ app.get("/", (req, res) => {
   res.send("Server del mio blog");
 });
 
+app.use(express.json());
+
 // registro il router con prefisso /posts
 app.use("/posts", postsRouter);
 

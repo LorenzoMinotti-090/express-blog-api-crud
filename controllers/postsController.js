@@ -17,6 +17,7 @@ export function show(req, res) {
 }
 
 export function store(req, res) {
+    console.log("Dati ricevuti:", req.body);
     res.send("Creazione di un nuovo post");
 }
 
