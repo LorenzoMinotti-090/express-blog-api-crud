@@ -1,5 +1,7 @@
 import express from "express";
 import postsRouter from "./routers/posts.js";
+import notFound from "./middlewares/notFound.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 const port = 3000;
@@ -18,21 +20,10 @@ app.use(express.json());
 app.use("/posts", postsRouter);
 
 // middleware 404
-
-app.use((req, res) => {
-  res.status(404).json({
-    error: "Endpoint non trovato"
-  });
-});
+app.use(notFound);
 
 // middleware per gestione errori
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-
-  res.status(500).json({
-    error: "Errore interno del server"
-  });
-});
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("Server pronto sulla porta " + port);
